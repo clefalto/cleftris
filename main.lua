@@ -27,8 +27,9 @@ function _update()
     end
 
     if frame % 10 == 0 then
-        pWHAT.y = clamp(pWHAT.y + 1, 1, 20)
-        pWHAT.x = 1
+        if not grid:test_collisions(pWHAT, 0, 1) then
+            pWHAT.y += 1
+        end
     end
 
     -- step_piece

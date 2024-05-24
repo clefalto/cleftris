@@ -64,7 +64,11 @@ function grid:test_collisions(piece, dx, dy)
     for i in pairs(piece.shape) do
         for j in pairs(piece.shape[i]) do
             if piece.shape[i][j] != 0 then
-                if self.mtx[new_origin_pos.y + i][new_origin_pos.x + j] != 0 then
+                local test_pos = {x = new_origin_pos.x + (j - 1), y = new_origin_pos.y + (i - 1)}
+                if test_pos.x < 1 or test_pos.x > self.num_columns or 
+                   test_pos.y < 1 or test_pos.y > self.num_rows or
+                   self.mtx[test_pos.y][test_pos.x] != 0 then
+                    log("collision detected at " .. test_pos.x .. " " .. test_pos.y)
                     return true
                 end
             end

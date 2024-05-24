@@ -53,8 +53,8 @@ function create_piece(t, r)
             dim = d}
 end
 
--- given a piece, return its transformed shape matrix for the given rotation
-function transform(piece, rot)
+-- given a piece, return its rotated shape matrix for the given rotation
+function rotate(piece, rot)
     -- rot = 0: default rotation, return the normal matrix
     -- rot = 1: 90 degrees cw, return the normal matrix rotated 90 degrees
     -- rot = 2: 180 degrees cw, return the normal matrix rotated 180 degrees
