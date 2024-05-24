@@ -4,31 +4,45 @@ function create_piece(t, r)
     local shp = {}
     local d = {}
     if t == 1 then
-        shp = {1, 0, 0,
-               1, 1, 1}
+        shp = {
+            {1, 0, 0},
+            {1, 1, 1}
+        }
         d = {w = 3, h = 2}
     elseif t == 2 then
-        shp = {0, 0, 1,
-               1, 1, 1}
+        shp = {
+            {0, 0, 1},
+            {1, 1, 1}
+        }
         d = {w = 3, h = 2}
     elseif t == 3 then
-        shp = {0, 1, 0,
-               1, 1, 1}
+        shp = {
+            {0, 1, 0},
+            {1, 1, 1}
+        }
         d = {w = 3, h = 2}
     elseif t == 4 then
-        shp = {0, 1, 1,
-               1, 1, 0}
+        shp = {
+            {0, 1, 1},
+            {1, 1, 0}
+        }
         d = {w = 3, h = 2}
     elseif t == 5 then
-        shp = {1, 1, 0,
-               0, 1, 1}
+        shp = {
+            {1, 1, 0},
+            {0, 1, 1}
+        }
         d = {w = 3, h = 2}
     elseif t == 6 then
-        shp = {1, 1,
-               1, 1}
+        shp = {
+            {1, 1},
+            {1, 1}
+        }
         d = {w = 2, h = 2}
     elseif t == 7 then
-        shp = {1, 1, 1, 1}
+        shp = {
+            {1, 1, 1, 1}
+        }
         d = {w = 4, h = 1}
     end
 
@@ -50,20 +64,37 @@ function transform(piece, rot)
         return piece.shape
     elseif rot == 1 then
         for i = 1, piece.dim.w do
+            ret[i] = {}
+            local a = 1
             for j = piece.dim.h, 1, -1 do
-                ret[#ret + 1] = piece.shape[i + piece.dim.w * j]
+                ret[i][a] = piece.shape[j][i]
+                a += 1
             end
         end
     elseif rot == 2 then
-        for i = #piece.shape, 1, -1 do
-           ret[#ret + 1] = piece.shape[i]
+        local a, b = 1, 1
+        for i = piece.dim.h, 1, -1 do
+            ret[b] = {}
+            a = 1
+            for j = piece.dim.w, 1, -1 do
+                ret[b][a] = piece.shape[i][j]
+                a += 1
+            end
+            b += 1
         end
     elseif rot == 3 then
+        local a = 1
         for i = piece.dim.w, 1, -1 do
-            for j = piece.dim.h, 1, -1 do
-                ret[#ret + 1] = piece.shape[i + piece.dim.w * j]
+            ret[a] = {}
+            for j = 1, piece.dim.h do
+                ret[a][j] = piece.shape[j][i]
             end
+            a += 1
         end
     end
     return ret
+end
+
+function step_piece(piece)
+    piece.y += 1
 end

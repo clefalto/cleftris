@@ -8,8 +8,9 @@ grid.center = {x = 64, y = 64}
 grid.rect = {}
 
 function grid:initialize() 
-    for i = 1, self.num_columns do
-        for j = 1, self.num_rows do
+    for j = 1, self.num_rows do
+        self.mtx[j] = {}
+        for i = 1, self.num_columns do
             self:place_cell(i, j, 0)
         end
     end
@@ -33,52 +34,13 @@ function grid:place_piece(piece)
     local cell_pos = {x = piece.x, y = piece.y}
     local shp = piece.shape
 
-    if piece.rot == 0 then -- 0 deg default rotation ezpz
-        for i = 1, 8 do
-            local v = shp[i]
-            if v == 1 then
-                self:place_piece_cell(piece, i)
+    for i in pairs(shp) do
+        for j in pairs(shp[i]) do
+            if shp[i][j] != 0 then
+                self:place_cell(j - 1 + cell_pos.x, i - 1 + cell_pos.y, piece.type)
             end
-        end
-    elseif piece.rot == 1 then -- 90 deg cw
-        local j = 5
-        for i = 1, 8 do
-            -- just need to know that 1 maps to cell position cx + 1, cy
-            -- and similarly that index 5 maps to cell position cx, cy
-            -- and similarly that index 7 maps to cell position cx, cy + 2
-            local v = shp[j]
-            if v == 1 then
-                self:place_piece_cell(piece, i)
-            end
-            j = wrap(j + 1, 1, 8)
-        end
-    elseif piece.rot == 2 then -- 180 deg cw
-        local j = 8
-        for i = 1, 8 do
-            local v = shp[j]
-            if v == 1 then
-                self:place_piece_cell(piece, i)
-            end
-            j -= 1
-        end
-    elseif piece.rot == 3 then -- 270 deg cw
-        local j = 4
-        for i = 1, 8 do
-            local v = shp[j]
-            if v == 1 then
-                self:place_piece_cell(piece, i)
-            end
-            j = wrap(j - 1, 1, 8)
         end
     end
-end
-
--- helper function for the preceding function to save on tokens :)
-function grid:place_piece_cell(piece, shape_idx)
-    local cell_pos = {x = piece.x, y = piece.y}
-    log("placing piece cell for piece with x = "..cell_pos.x.." and y = "..cell_pos.y.." and shape index "..shape_idx)
-    local shp = piece.shape
-    self:place_cell(cell_pos.x + (wrap(shape_idx, 1, 4) - 1), cell_pos.y + flr((shape_idx - 1) / 4), piece.type)
 end
 
 -- place a cell in the grid to begin drawing it, sets the value in the internal grid array
@@ -88,15 +50,27 @@ function grid:place_cell(cx, cy, type)
     if cx > self.num_columns or cx < 1 then return end
     if cy > self.num_rows or cy < 1 then return end
     type = wrap(type, 0, 8) -- wrap type just in case
-    self.mtx[cx + self.num_columns * cy] = type
+    self.mtx[cy][cx] = type
     if type != 0 then -- don't log empty cells being placed
         log("placed cell "..type.." at cell x = "..cx.." and cell y = "..cy)
     end
 end
 
 -- poll the grid to test if the given piece collides w/ any grid cells
-function grid:test_collision(piece, dx, dy)
-    
+function grid:test_collisions(piece, dx, dy)
+    dx = dx or 0
+    dy = dy or 0
+    local new_origin_pos = {x = piece.x + dx, y = piece.y + dy}
+    for i in pairs(piece.shape) do
+        for j in pairs(piece.shape[i]) do
+            if piece.shape[i][j] != 0 then
+                if self.mtx[new_origin_pos.y + i][new_origin_pos.x + j] != 0 then
+                    return true
+                end
+            end
+        end
+    end
+    return false
 end
 
 function grid:draw()
@@ -117,9 +91,14 @@ function grid:draw()
             -- block 3 is T piece, 
             -- block 4 is S piece, 
             -- block 5 is 2 piece, 
-            -- block 6 is tetris
-            local val = self.mtx[i + self.num_columns * j]
+            -- block 6 is square piece,
+            -- block 7 is tetris
+            local val = self.mtx[j][i]
+            palt(0, false) -- draw black bg of grid
+            palt(1, true)
             spr(val * 2 - 1 + 32, pos.x, pos.y) -- fine
+            palt(0, true) -- woah
+            palt(1, false)
             if val != 0 then 
                 log("drew cell "..val.." at cell position x = "..i.." y = "..j) 
                 -- circ(pos.x, pos.y, 0, 11)

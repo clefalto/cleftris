@@ -1,5 +1,5 @@
 function clamp(val, min, max)
-    local ret
+    local ret = val
     if val < min then ret = min 
     elseif val > max then ret = max end
     return ret
@@ -43,4 +43,15 @@ end
 -- log something to log.txt file, the file is appended to
 function log(string)
     printh(string, "log.txt", false)
+end
+
+function format_matrix(mtx)
+    local s = ""
+    for i in pairs(mtx) do
+        for j in pairs(mtx[i]) do
+            s = s .. mtx[i][j] .. " "
+        end
+        s = s.."\n"
+    end
+    return s
 end

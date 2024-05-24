@@ -4,6 +4,9 @@
 
 frame = 0
 rotate_mode = 0
+pWHAT = create_piece(1, 0)
+pWHAT.x = 5
+pWHAT.y = 1
 
 function _init()
     grid:initialize()
@@ -17,19 +20,23 @@ function _update()
     end
 
     if btnp(❎) then
-        local p = create_piece(flr(rnd(7) + 1), 0)
-        p.x = 5
-        p.y = 5
-        
-        local t = transform(p, 1)
-        for i, v in ipairs(t) do
-            log(v)
-        end
+        local p1 = create_piece(1, 0)
+        p1.x = 4
+        p1.y = 1
+        grid:place_piece(p1)
     end
+
+    if frame % 10 == 0 then
+        pWHAT.y = clamp(pWHAT.y + 1, 1, 20)
+        pWHAT.x = 1
+    end
+
+    -- step_piece
 end
 
 function _draw()
-    cls(0)
+    cls(1)
+    -- bg:draw()
     grid:draw()
     palette:draw()
     ui.draw()
@@ -43,18 +50,10 @@ function _draw()
     draw_piece(7, 100, 30, rotate_mode)
 
     for i = 1, 7 do
-        spr((i * 2 - 1) + 32, (i * 8 - 1) + 24, 110)
+        spr((i * 2 - 1) + 32, (i * 9 - 1) + 27, 120)
     end
 
     
-    -- draw_piece(1, 10, 10, 0)
-    -- draw_piece(1, 10, 30, 1)
-    -- draw_piece(1, 10, 50, 2)
-    -- draw_piece(1, 10, 70, 3)
-    -- circ(10, 10, 1, 11)
-    -- circ(10, 30, 1, 11)
-    -- circ(10, 50, 1, 11)
-    -- circ(10, 70, 1, 11)
-    -- sprot(10, 30, 3, 2, 0, 0, -1)
+    draw_piece_grid(pWHAT)
 end
 

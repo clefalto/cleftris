@@ -16,5 +16,20 @@ function draw_piece(idx, x, y, rot)
     end
 end
 
+-- draw a piece constrained to the grid, uses the piece's position and rotation internally
+-- very similar to the place_piece function of grid
+function draw_piece_grid(p)
+    local grid_origin = {x = grid.rect.x, y = grid.rect.y}
+    local piece_origin_screen = {x = (p.x - 1) * grid.cell_size + grid_origin.x, y = (p.y - 1) * grid.cell_size + grid_origin.y}
+    for i in pairs(p.shape) do
+        for j in pairs(p.shape[i]) do
+            if (p.shape[i][j]) == 1 then
+                local pos = {x = piece_origin_screen.x  + (j - 1) * grid.cell_size, y = piece_origin_screen.y + (i - 1) * grid.cell_size}
+                spr(p.type * 2 - 1 + 32, pos.x, pos.y)
+            end
+        end
+    end
+end
+
 -- player is only controlling one piece at any given time, meaning only one piece is falling at any given time
 -- so can do expensive calculations >:)
