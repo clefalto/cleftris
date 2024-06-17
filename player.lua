@@ -25,11 +25,23 @@ function draw_piece_grid(p)
         for j in pairs(p.shape[i]) do
             if (p.shape[i][j]) == 1 then
                 local pos = {x = piece_origin_screen.x  + (j - 1) * grid.cell_size, y = piece_origin_screen.y + (i - 1) * grid.cell_size}
-                spr(p.type * 2 - 1 + 32, pos.x, pos.y)
+                draw_block(p.type, pos.x, pos.y)
             end
         end
     end
 end
 
+function draw_block(type, pos_x, pos_y) 
+    palt(0, false)
+    palt(15, true)
+    spr(type * 2 - 1 + 32, pos_x, pos_y)
+    palt(0, true)
+    palt(15, false)
+end
+
 -- player is only controlling one piece at any given time, meaning only one piece is falling at any given time
 -- so can do expensive calculations >:)
+
+function lose_game()
+    gamestate = 2
+end

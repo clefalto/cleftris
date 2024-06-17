@@ -1,0 +1,52 @@
+-- bg = {
+--     cube = {
+--         vert1 = {
+--             x = 32,
+--             y = 32,
+--             z = 0
+--         },
+--         vert2 = {
+--             x = 96,
+--             y = 32,
+--             z = 0
+--         },
+--         vert3 = {
+--             x = 96,
+--             y = 96,
+--             z = 0
+--         },
+--         vert4 = {
+--             x = 32,
+--             y = 96,
+--             z = 0
+--         },
+--         vert5 = {
+--             x = 32,
+--             y = 32,
+--             z = 64
+--         },
+--         vert6 = {
+--             x = 96,
+--             y = 32,
+--             z = 64
+--         },
+--         vert7 = {
+--             x = 96,
+--             y = 96,
+--             z = 64
+--         },
+--         vert8 = {
+--             x = 32,
+--             y = 96,
+--             z = 64
+--         }
+--     }
+-- }
+
+-- function bg:draw()
+--     -- reset palette for this function specifically
+--     local cube = self.cube
+--     for i in pairs(cube) do
+
+--     end
+-- end
