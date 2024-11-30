@@ -25,4 +25,17 @@ function ui:draw()
     print("nEXT", next_rect.x + next_rect.w / 2 - 8, next_rect.y + 1, 7)
     
     draw_piece(next_piece_type, next_rect.x + next_rect.w / 2 - 8, next_rect.y + next_rect.h / 2 - 2, 0)
+
+    local score_rect = {}
+    score_rect.x = held_rect.x
+    score_rect.y = above_grid.y + 60
+    score_rect.w = 30
+    score_rect.h = 35
+    rectfill(score_rect.x, score_rect.y, score_rect.x + score_rect.w, score_rect.y + score_rect.h, 0)
+    print("lEVEL", score_rect.x + score_rect.w / 2 - 9, score_rect.y + 1, 7)
+
+    print(level, score_rect.x + score_rect.w / 2, score_rect.y + score_rect.h / 4 + 1, 7)
+
+    print("cLEARED", score_rect.x + score_rect.w / 2 - 12, score_rect.y + score_rect.h / 2 + 1, 7)
+    print(lines_cleared, score_rect.x + score_rect.w / 2, score_rect.y + score_rect.h * 3/4, 7)
 end
