@@ -3,6 +3,7 @@
 frame = 0
 lines_cleared = 0
 level = 0
+score = 0
 
 rotate_mode = 0
 ctrl_piece = create_piece(1) -- global variable for the currently controlled piece by the player
@@ -21,6 +22,7 @@ fast_drop_step_length = 2
 
 function _init()
     grid:reset()
+    music(0)
 end
 
 function _update()

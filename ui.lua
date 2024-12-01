@@ -30,12 +30,15 @@ function ui:draw()
     score_rect.x = held_rect.x
     score_rect.y = above_grid.y + 60
     score_rect.w = 30
-    score_rect.h = 35
+    score_rect.h = 52
     rectfill(score_rect.x, score_rect.y, score_rect.x + score_rect.w, score_rect.y + score_rect.h, 0)
+    
     print("lEVEL", score_rect.x + score_rect.w / 2 - 9, score_rect.y + 1, 7)
+    print(level, score_rect.x + score_rect.w / 2, score_rect.y + score_rect.h / 6 + 1, 7)
 
-    print(level, score_rect.x + score_rect.w / 2, score_rect.y + score_rect.h / 4 + 1, 7)
+    print("cLEARED", score_rect.x + score_rect.w / 2 - 12, score_rect.y + score_rect.h * 1/3, 7)
+    print(lines_cleared, score_rect.x + score_rect.w / 2, score_rect.y + score_rect.h * 1/2, 7)
 
-    print("cLEARED", score_rect.x + score_rect.w / 2 - 12, score_rect.y + score_rect.h / 2 + 1, 7)
-    print(lines_cleared, score_rect.x + score_rect.w / 2, score_rect.y + score_rect.h * 3/4, 7)
+    print("sCORE", score_rect.x + score_rect.w / 2 - 9, score_rect.y + score_rect.h / 2 + 9, 7)
+    print(score, score_rect.x + score_rect.w / 2, score_rect.y + score_rect.h * 5/6, 7)
 end

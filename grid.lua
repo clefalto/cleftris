@@ -53,6 +53,8 @@ function grid:place_piece(piece)
         end
     end
 
+    sfx(0)
+
     local piece_bottom_row = cell_pos.y + piece.dim.h - 1
     self:perform_line_clears(piece_bottom_row)
 end
@@ -145,11 +147,17 @@ function grid:perform_line_clears(start_row)
         iteration += 1
     end
 
-    local GRAJHGRLKAJRH = "" -- for debug purposes
+    local cleared_at_once = 0
+    local score_add = 0
     for i in pairs(mask) do
-        GRAJHGRLKAJRH = GRAJHGRLKAJRH .. mask[i]
+        if mask[i] == 1 then
+            score_add += 10
+            cleared_at_once += 1
+        end
     end
-    log("uh, " .. GRAJHGRLKAJRH)
+
+    score_add *= cleared_at_once
+    score += score_add
 
     -- move all lines above found lines down by one row
     local cur_row = start_row
@@ -158,6 +166,7 @@ function grid:perform_line_clears(start_row)
             -- move all rows above this one down by one row
             log("cur row: " .. cur_row)
             self:clear_line(cur_row)
+            sfx(1)
         else
             cur_row -= 1
         end
